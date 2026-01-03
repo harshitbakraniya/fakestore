@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { type ReactElement } from "react"
 import { render, type RenderOptions } from "@testing-library/react"
 import { Provider } from "react-redux"
@@ -5,9 +6,10 @@ import { configureStore } from "@reduxjs/toolkit"
 import { baseApi } from "@/api/baseApi"
 import filtersReducer from "@/features/filters/filters.slice"
 import favoritesReducer from "@/features/favorites/favorites.slice"
+import type { RootState } from "@/app/store"
 
 // Create a test store
-const createTestStore = (preloadedState = {}) => {
+const createTestStore = (preloadedState: Partial<RootState> = {}) => {
   return configureStore({
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
@@ -24,7 +26,7 @@ const createTestStore = (preloadedState = {}) => {
 
 interface AllTheProvidersProps {
   children: React.ReactNode
-  preloadedState?: any
+  preloadedState?: Partial<RootState>
 }
 
 const AllTheProviders = ({
@@ -37,7 +39,7 @@ const AllTheProviders = ({
 
 const customRender = (
   ui: ReactElement,
-  options?: Omit<RenderOptions, "wrapper"> & { preloadedState?: any }
+  options?: Omit<RenderOptions, "wrapper"> & { preloadedState?: Partial<RootState> }
 ) => {
   const { preloadedState, ...renderOptions } = options || {}
   return render(ui, {
@@ -50,6 +52,7 @@ const customRender = (
   })
 }
 
-export * from "@testing-library/react"
+// Export testing utilities separately to avoid fast refresh warning
 export { customRender as render, createTestStore }
+export { screen, waitFor, within, fireEvent } from "@testing-library/react"
 

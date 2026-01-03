@@ -7,13 +7,15 @@ import {
   selectFavoritesTotalPages,
 } from "@/features/favorites/favorites.selectors"
 import { Heart } from "lucide-react"
+import type { RootState } from "@/app/store"
 
 export default function FavoritesPage() {
   const favorites = useAppSelector((s) => s.favorites)
   const filters = useAppSelector((s) => s.filters)
-  const filteredFavorites = selectFilteredFavorites(favorites, { filters } as any)
-  const paginatedFavorites = selectPaginatedFavorites(filteredFavorites, { filters } as any)
-  const totalPages = selectFavoritesTotalPages(filteredFavorites, { filters } as any)
+  const mockState = { filters } as RootState
+  const filteredFavorites = selectFilteredFavorites(favorites, mockState)
+  const paginatedFavorites = selectPaginatedFavorites(filteredFavorites, mockState)
+  const totalPages = selectFavoritesTotalPages(filteredFavorites, mockState)
 
   if (favorites.length === 0) {
     return (

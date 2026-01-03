@@ -9,13 +9,15 @@ import {
   selectPaginatedProducts,
   selectTotalPages,
 } from "@/features/products/products.selectors"
+import type { RootState } from "@/app/store"
 
 export default function ProductsPage() {
   const { data = [], isLoading } = useGetProductsQuery()
   const filters = useAppSelector((s) => s.filters)
-  const filteredProducts = selectFilteredProducts(data, { filters } as any)
-  const paginatedProducts = selectPaginatedProducts(filteredProducts, { filters } as any)
-  const totalPages = selectTotalPages(filteredProducts, { filters } as any)
+  const mockState = { filters } as RootState
+  const filteredProducts = selectFilteredProducts(data, mockState)
+  const paginatedProducts = selectPaginatedProducts(filteredProducts, mockState)
+  const totalPages = selectTotalPages(filteredProducts, mockState)
 
   if (isLoading) {
     return (
