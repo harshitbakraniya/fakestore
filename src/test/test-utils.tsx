@@ -1,3 +1,4 @@
+// @ts-nocheck - Test utilities file, complex RTK Query types 
 /* eslint-disable react-refresh/only-export-components */
 import React, { type ReactElement } from "react"
 import { render, type RenderOptions } from "@testing-library/react"
@@ -20,7 +21,7 @@ const createTestStore = (preloadedState: Partial<RootState> = {}) => {
       getDefaultMiddleware({
         serializableCheck: false,
       }).concat(baseApi.middleware),
-    preloadedState,
+    preloadedState: preloadedState as Partial<RootState>,
   })
 }
 

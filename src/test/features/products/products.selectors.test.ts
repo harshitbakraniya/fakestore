@@ -1,3 +1,4 @@
+// @ts-nocheck - Test file, mock state types are simplified
 import { describe, it, expect } from "vitest"
 import {
   selectFilteredProducts,
@@ -7,31 +8,43 @@ import {
 import type { RootState } from "@/app/store"
 import { mockProducts } from "@/test/mockData"
 
-const createMockState = (filters: Partial<RootState["filters"]>): RootState => ({
-  filters: {
-    search: "",
-    category: "",
-    sort: "",
-    currentPage: 1,
-    itemsPerPage: 12,
-    ...filters,
-  },
-  favorites: [],
-  api: {
-    queries: {},
-    mutations: {},
-    provided: {},
-    subscriptions: {},
-    config: {
-      reducerPath: "api",
-      invalidationBehavior: "delayed",
-      refetchOnMountOrArgChange: false,
-      refetchOnFocus: false,
-      refetchOnReconnect: false,
-      keepUnusedDataFor: 60,
+const createMockState = (filters: Partial<RootState["filters"]>): RootState => {
+  // Create a minimal mock state for testing
+  // @ts-ignore - Mock state for tests, RTK Query state structure is complex
+  return {
+    filters: {
+      search: "",
+      category: "",
+      sort: "",
+      currentPage: 1,
+      itemsPerPage: 12,
+      ...filters,
     },
-  },
-})
+    favorites: [],
+    api: {
+      queries: {},
+      mutations: {},
+      // @ts-ignore - RTK Query provided state structure is complex
+      provided: {
+        tags: {},
+        keys: {},
+      },
+      subscriptions: {},
+      // @ts-ignore - RTK Query config state structure is complex
+      config: {
+        reducerPath: "api",
+        invalidationBehavior: "delayed",
+        refetchOnMountOrArgChange: false,
+        refetchOnFocus: false,
+        refetchOnReconnect: false,
+        keepUnusedDataFor: 60,
+        online: true,
+        focused: true,
+        middlewareRegistered: true,
+      },
+    },
+  } as RootState
+}
 
 describe("products selectors", () => {
   describe("selectFilteredProducts", () => {
