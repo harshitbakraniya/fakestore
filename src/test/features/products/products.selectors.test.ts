@@ -1,4 +1,3 @@
-// @ts-nocheck - Test file, mock state types are simplified
 import { describe, it, expect } from "vitest"
 import {
   selectFilteredProducts,
@@ -8,9 +7,9 @@ import {
 import type { RootState } from "@/app/store"
 import { mockProducts } from "@/test/mockData"
 
+// Test files are excluded from TypeScript build, so type errors here won't affect the build
 const createMockState = (filters: Partial<RootState["filters"]>): RootState => {
   // Create a minimal mock state for testing
-  // @ts-ignore - Mock state for tests, RTK Query state structure is complex
   return {
     filters: {
       search: "",
@@ -24,13 +23,11 @@ const createMockState = (filters: Partial<RootState["filters"]>): RootState => {
     api: {
       queries: {},
       mutations: {},
-      // @ts-ignore - RTK Query provided state structure is complex
       provided: {
         tags: {},
         keys: {},
       },
       subscriptions: {},
-      // @ts-ignore - RTK Query config state structure is complex
       config: {
         reducerPath: "api",
         invalidationBehavior: "delayed",

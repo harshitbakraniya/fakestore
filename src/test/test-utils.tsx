@@ -1,4 +1,3 @@
-// @ts-nocheck - Test utilities file, complex RTK Query types 
 /* eslint-disable react-refresh/only-export-components */
 import React, { type ReactElement } from "react"
 import { render, type RenderOptions } from "@testing-library/react"
@@ -10,17 +9,18 @@ import favoritesReducer from "@/features/favorites/favorites.slice"
 import type { RootState } from "@/app/store"
 
 // Create a test store
+// Using same pattern as actual store to avoid type issues
 const createTestStore = (preloadedState: Partial<RootState> = {}) => {
   return configureStore({
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
       filters: filtersReducer,
       favorites: favoritesReducer,
-    },
-    middleware: (getDefaultMiddleware) =>
-      getDefaultMiddleware({
+    } as never,
+    middleware: (gDM) =>
+      gDM({
         serializableCheck: false,
-      }).concat(baseApi.middleware),
+      }).concat(baseApi.middleware) as never,
     preloadedState: preloadedState as Partial<RootState>,
   })
 }
