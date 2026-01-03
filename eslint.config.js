@@ -25,14 +25,26 @@ export default defineConfig([
     files: ['**/*.test.{ts,tsx}', '**/test/**/*.{ts,tsx}'],
     extends: [
       js.configs.recommended,
+      ...tseslint.configs.recommended,
       reactHooks.configs.flat.recommended,
       reactRefresh.configs.vite,
     ],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        ...globals.node,
+      },
+      parser: tseslint.parser,
       parserOptions: {
-        project: false,
+        // Use tsconfig.test.json for test files to resolve path aliases
+        project: ['./tsconfig.test.json'],
+        tsconfigRootDir: process.cwd(),
+        ecmaVersion: 2020,
+        sourceType: 'module',
+        ecmaFeatures: {
+          jsx: true,
+        },
       },
     },
     rules: {
@@ -45,6 +57,17 @@ export default defineConfig([
       '@typescript-eslint/no-unsafe-argument': 'off',
       '@typescript-eslint/restrict-template-expressions': 'off',
       '@typescript-eslint/unbound-method': 'off',
+      // Disable module resolution errors for test files since they're excluded from build
+      'import/no-unresolved': 'off',
+      '@typescript-eslint/no-var-requires': 'off',
+    },
+    settings: {
+      'import/resolver': {
+        typescript: {
+          alwaysTryTypes: true,
+          project: ['./tsconfig.test.json', './tsconfig.app.json'],
+        },
+      },
     },
   },
 ])

@@ -7,10 +7,11 @@ import { baseApi } from "@/api/baseApi"
 import filtersReducer from "@/features/filters/filters.slice"
 import favoritesReducer from "@/features/favorites/favorites.slice"
 import type { RootState } from "@/app/store"
+import type { Store } from "@reduxjs/toolkit"
 
 // Create a test store
 // Using same pattern as actual store to avoid type issues
-const createTestStore = (preloadedState: Partial<RootState> = {}) => {
+const createTestStore = (preloadedState: Partial<RootState> = {}): Store<RootState> => {
   return configureStore({
     reducer: {
       [baseApi.reducerPath]: baseApi.reducer,
@@ -22,7 +23,7 @@ const createTestStore = (preloadedState: Partial<RootState> = {}) => {
         serializableCheck: false,
       }).concat(baseApi.middleware) as never,
     preloadedState: preloadedState as Partial<RootState>,
-  })
+  }) as Store<RootState>
 }
 
 interface AllTheProvidersProps {

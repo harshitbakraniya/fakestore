@@ -7,9 +7,7 @@ import {
 import type { RootState } from "@/app/store"
 import { mockProducts } from "@/test/mockData"
 
-// Test files are excluded from TypeScript build, so type errors here won't affect the build
 const createMockState = (filters: Partial<RootState["filters"]>): RootState => {
-  // Create a minimal mock state for testing
   return {
     filters: {
       search: "",
@@ -40,7 +38,7 @@ const createMockState = (filters: Partial<RootState["filters"]>): RootState => {
         middlewareRegistered: true,
       },
     },
-  } as RootState
+  } as unknown as RootState
 }
 
 describe("products selectors", () => {
